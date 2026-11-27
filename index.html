@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-боты для бизнеса — AMM Studio</title>
+    <meta name="description" content="Чат-боты, которые отвечают клиентам 24/7, принимают заявки и передают данные в CRM. Для салонов, клиник, сервисов.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--teal:#00E5CC;--teal-glow:rgba(0,229,204,0.3);--bg:#0a0a0a;--text:#ffffff;--muted:#888888;--border:rgba(0,229,204,0.15);}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;line-height:1.6;font-weight:400;font-size:18px;}
+        h1,h2,h3{font-weight:700;color:var(--text);line-height:1.1;}
+        h1{font-size:4.5rem;}
+        h2{font-size:3rem;margin-bottom:2rem;}
+        h3{font-size:1.5rem;margin-bottom:1rem;}
+        .w{max-width:1400px;margin:0 auto;padding:0 40px;}
+        .btn{display:inline-block;background:var(--teal);color:#0a0a0a;padding:18px 48px;text-decoration:none;font-weight:600;border-radius:50px;transition:.3s;font-size:1rem;letter-spacing:.5px;border:none;cursor:pointer;}
+        .btn:hover{background:#00ffdd;transform:translateY(-2px);box-shadow:0 10px 30px var(--teal-glow);}
+        .btn-outline{background:transparent;color:var(--teal);border:2px solid var(--teal);}
+        .btn-outline:hover{background:var(--teal);color:#0a0a0a;}
+
+        header{position:fixed;top:0;left:0;width:100%;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+        .logo{font-size:1.8rem;font-weight:700;color:var(--text);text-decoration:none;}
+        .logo span{color:var(--teal);}
+        nav{display:flex;gap:30px;align-items:center;}
+        nav a{color:var(--text);text-decoration:none;font-size:.95rem;transition:.3s;}
+        nav a:hover{color:var(--teal);}
+
+        .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:120px 40px 80px;overflow:hidden;}
+        .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 70% 50%,rgba(0,229,204,0.08) 0%,transparent 50%);pointer-events:none;}
+        .hero-content{max-width:600px;position:relative;z-index:2;}
+        .hero h1{font-size:4.5rem;margin-bottom:1.5rem;}
+        .hero h1 span{color:var(--teal);}
+        .hero p{font-size:1.3rem;color:var(--muted);margin-bottom:2.5rem;max-width:500px;}
+        .hero-stats{display:flex;gap:40px;margin-top:3rem;}
+        .stat{text-align:left;}
+        .stat-num{font-size:2.5rem;font-weight:700;color:var(--teal);display:block;}
+        .stat-label{font-size:.9rem;color:var(--muted);}
+
+        section{padding:100px 40px;border-bottom:1px solid var(--border);}
+        section h2{text-align:left;margin-bottom:3rem;}
+        .section-label{font-size:.9rem;color:var(--teal);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;display:block;}
+
+        .problems{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;}
+        .problem{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:40px;transition:.3s;}
+        .problem:hover{border-color:var(--teal);transform:translateY(-5px);}
+        .problem h3{color:var(--teal);font-size:1.4rem;margin-bottom:1rem;}
+        .problem p{color:var(--muted);font-size:1rem;line-height:1.6;}
+
+        .solutions{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+        .solution{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:40px;transition:.3s;}
+        .solution:hover{border-color:var(--teal);transform:translateY(-5px);}
+        .solution h3{color:var(--teal);font-size:1.3rem;margin-bottom:1rem;}
+        .solution p{color:var(--muted);font-size:1rem;line-height:1.6;}
+
+        .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+        .plan{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center;transition:.3s;}
+        .plan:hover{border-color:var(--teal);transform:translateY(-5px);}
+        .plan.featured{border-color:var(--teal);background:rgba(0,229,204,0.05);}
+        .plan h3{font-size:1.3rem;margin-bottom:1rem;}
+        .plan .price{font-size:2.5rem;color:var(--teal);font-weight:700;margin-bottom:1.5rem;}
+        .plan .price span{font-size:1rem;color:var(--muted);}
+        .plan ul{list-style:none;text-align:left;margin-bottom:2rem;}
+        .plan ul li{padding:.5rem 0;color:var(--muted);font-size:.95rem;}
+        .plan ul li::before{content:'✓';color:var(--teal);margin-right:10px;font-weight:700;}
+
+        .cta{text-align:center;padding:120px 40px;}
+        .cta h2{font-size:3.5rem;margin-bottom:1.5rem;}
+        .cta p{font-size:1.3rem;color:var(--muted);margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto;}
+
+        footer{padding:60px 40px;text-align:center;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border);}
+        footer a{color:var(--teal);text-decoration:none;}
+
+        @media(max-width:968px){.hero{flex-direction:column;padding:120px 20px 60px;}.hero-content{max-width:100%;}.hero h1{font-size:2.8rem;}.hero-stats{flex-direction:column;gap:20px;}section{padding:60px 20px;}h2{font-size:2rem;}.problems,.solutions,.pricing{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">AMM<span>.</span> AI</a>
+    <nav>
+        <a href="#problems">Проблемы</a>
+        <a href="#solutions">Решения</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#contact">Контакт</a>
+        <a href="https://t.me/Michail7874" class="btn" style="padding:12px 32px;font-size:.9rem;">Заказать бота</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>AI-боты,<br>которые<br><span>продают за вас</span></h1>
+        <p>Клиенты пишут ночью, а вы отвечаете утром? Пропустили звонок — потеряли заказ? Бот отвечает 24/7, принимает заявки, передаёт в CRM.</p>
+        <a href="https://t.me/Michail7874" class="btn">Обсудить проект</a>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">ответы клиентам</span></div>
+            <div class="stat"><span class="stat-num">0</span><span class="stat-label">пропущенных заявок</span></div>
+            <div class="stat"><span class="stat-num">+30%</span><span class="stat-label">к продажам</span></div>
+        </div>
+    </div>
+</section>
+
+<section id="problems">
+    <div class="w">
+        <span class="section-label">Проблемы</span>
+        <h2>Что болит у бизнеса</h2>
+        <div class="problems">
+            <div class="problem">
+                <h3>Клиенты уходят к тем, кто отвечает быстрее</h3>
+                <p>Вы спите — клиент пишет конкуренту. Вы в дороге — заявка остывает. Скорость ответа = деньги.</p>
+            </div>
+            <div class="problem">
+                <h3>Менеджеры не тянут поток</h3>
+                <p>Один человек физически не может отвечать 50 клиентам одновременно. Нанять второго — дорого.</p>
+            </div>
+            <div class="problem">
+                <h3>Заявки теряются в мессенджерах</h3>
+                <p>WhatsApp, Telegram, сайт, соцсети — всё вразнобой. Менеджер забывает, клиент не дожидается.</p>
+            </div>
+            <div class="problem">
+                <h3>Скрипты «выберите пункт меню» бесят</h3>
+                <p>Старые боты отвечают шаблонами. Клиент чувствует робота и уходит. Нужен живой диалог.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="solutions">
+    <div class="w">
+        <span class="section-label">Решения</span>
+        <h2>Что делает бот</h2>
+        <div class="solutions">
+            <div class="solution">
+                <h3>Отвечает мгновенно</h3>
+                <p>24/7, без выходных, без обедов. Клиент получает ответ за 3 секунды, а не через 3 часа.</p>
+            </div>
+            <div class="solution">
+                <h3>Принимает заявки</h3>
+                <p>Запись, консультация, расчёт — всё через диалог. Данные уходят в CRM автоматически.</p>
+            </div>
+            <div class="solution">
+                <h3>Говорит как человек</h3>
+                <p>AI-модель, а не скрипт. Помнит контекст, отвечает в вашем стиле, не бесит шаблонами.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="pricing">
+    <div class="w">
+        <span class="section-label">Тарифы</span>
+        <h2>Сколько стоит</h2>
+        <div class="pricing">
+            <div class="plan">
+                <h3>Старт</h3>
+                <div class="price">5 000 ₽ <span>разово</span></div>
+                <ul>
+                    <li>Бот для Telegram или WhatsApp</li>
+                    <li>До 500 сообщений в месяц</li>
+                    <li>Базовые сценарии</li>
+                    <li>Настройка за 3 дня</li>
+                </ul>
+                <a href="https://t.me/Michail7874" class="btn btn-outline">Заказать</a>
+            </div>
+            <div class="plan featured">
+                <h3>Бизнес</h3>
+                <div class="price">15 000 ₽ <span>разово</span></div>
+                <ul>
+                    <li>Бот для сайта + мессенджеры</li>
+                    <li>До 5 000 сообщений в месяц</li>
+                    <li>Интеграция с CRM</li>
+                    <li>AI-модель под ваш стиль</li>
+                    <li>Настройка за 7 дней</li>
+                </ul>
+                <a href="https://t.me/Michail7874" class="btn">Заказать</a>
+            </div>
+            <div class="plan">
+                <h3>Премиум</h3>
+                <div class="price">30 000 ₽ <span>разово</span></div>
+                <ul>
+                    <li>Мультиканальный бот</li>
+                    <li>Безлимит сообщений</li>
+                    <li>Голосовой AI-ассистент</li>
+                    <li>Персональная модель</li>
+                    <li>Настройка за 14 дней</li>
+                </ul>
+                <a href="https://t.me/Michail7874" class="btn btn-outline">Заказать</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta" id="contact">
+    <div class="w">
+        <h2>Хотите бота?</h2>
+        <p>Напишите — за 2 часа скажу, какой тариф вам нужен, и покажу демо на вашем примере.</p>
+        <a href="https://t.me/Michail7874" class="btn">Написать в Telegram</a>
+        <div style="margin-top:2rem;font-size:1rem;color:var(--muted);">Telegram: @Michail7874 &nbsp;·&nbsp; WhatsApp: +7 921 933-22-14 &nbsp;·&nbsp; Email: ammstudiospb78@gmail.com</div>
+    </div>
+</section>
+
+<footer>
+    <div class="w">
+        <p>© 2026 AMM Studio · AI-боты для бизнеса · Санкт-Петербург</p>
+        <p style="margin-top:.5rem;"><a href="https://t.me/Michail7874">@Michail7874</a> &nbsp;·&nbsp; <a href="mailto:ammstudiospb78@gmail.com">ammstudiospb78@gmail.com</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
